@@ -1,0 +1,8 @@
+{
+    "wsNetworkTrafficPath"      : "g:/ws-traffic.log",
+    "httpNetworkTrafficPath"    : "g:/http-traffic.log",
+    "serverDebugFolder"         : "d:/tmpout",
+    "serverPort"                : "8000"
+}
+
+        

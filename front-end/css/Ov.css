@@ -1,0 +1,281 @@
+/**
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 
+ * crypto
+ * @authors 
+ *      Roberto Schaerer <robert@sysmovil.com>
+ * @descripción: 
+ * @version 1.0 - 29 abr. 2021 - 12:59:21
+ * 
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+
+:root {
+    
+    --alt-barras: 480px;
+    --bor-color:#ccc;
+    --ancho-component:660px;
+    
+    --ind-precio: #0F23FF;
+    --ind-venta: #FF0F0F;
+    --ind-compra: #0FFF0F;
+    --ind-precio-max: #AC1111;
+    --ind-precio-min: #11AA1E;    
+    
+    
+}
+
+.ov-component {
+    width:var(--ancho-component);
+    outline:green solid 4px;
+    padding:10px;
+    margin:20px;
+    display:table;
+}
+
+.ov-component .ov-cont-sup {
+    display:table;
+}
+
+.ov-component .ov-cont-sup .ov-data-container {
+    width:390px;
+    float:left;
+    border:var(--bor-color) solid 1px;
+}
+
+.ov-component .ov-data-container .ov-data div {
+    float:left;
+    padding:5px;
+    border:var(--bor-color) solid 1px;
+}
+
+.ov-component .ov-data-container .ov-data .dato {
+    width:194px;
+    min-height: 30px;
+    text-align: right;
+}
+
+.ov-component .ov-data-container .ov-data .label {
+    width:194px;
+    min-height: 30px;
+    max-width:194px;
+}
+
+/* -------------------------------------------------------------------------- */
+  /* BARRA DE PRECIO */
+
+.ov-component .ov-cont-sup .ov-barra-precio {
+    width:240px;
+    height:var(--altura-barras);
+    float:right;
+    border:var(--bor-color) solid 1px;
+}
+
+/*deslizador*/
+.ov-component .ov-barra-precio .ov-des {
+    position:relative;
+    float:left;
+    height: var(--alt-barras);
+    /*outline:#000 solid 2px;*/
+}
+
+.ov-component .ov-barra-precio .ov-des-precio {
+    width:118px;
+    padding:5px;
+    /*outline:blue solid 2px;*/
+}
+
+.ov-component .ov-barra-precio .ov-des-ind {
+    width:40px;
+    border:var(--bor-color) solid 1px;
+}
+
+.ov-component .ov-barra-precio .ov-des-por {
+    width:80px;
+    /*outline:red solid 2px;*/
+}
+
+/*indicador*/
+.ov-component .ov-barra-precio .ov-ind {
+    position:absolute;
+    top:0;
+    left:0;
+    height:20px;
+    /*font-weight: bolder;*/
+}
+
+.ov-component .ov-barra-precio .ov-des .ov-ind-graf {
+    width:36px;
+    left:2px;
+    top:0px;
+}
+
+.ov-component .ov-barra-precio .ov-des .ov-ind-graf .barra-ind {
+    position:absolute;
+    width:36px;
+    height:5px;
+    left:0;
+    top:7.5px;
+    border-radius: 2px;
+}
+
+.ov-component .ov-barra-precio .ov-des .ov-ind-imp {
+    text-align: right;
+    width:108px;
+    /*outline:#000 solid 1px;*/
+    padding:1px 3px;
+    left:5px;
+}
+
+.ov-component .ov-barra-precio .ov-des .ov-ind-por {
+    width:70px;
+    /*outline:#000 solid 1px;*/
+    padding:1px 3px;
+    left:5px;
+}
+
+.ov-component .ov-ind-graf-precio .barra-ind { background: var(--ind-precio) }
+.ov-component .ov-ind-graf-venta .barra-ind { background: var(--ind-venta) }
+.ov-component .ov-ind-graf-compra .barra-ind { background: var(--ind-compra) }
+.ov-component .ov-ind-graf-precio-max .barra-ind { background: var(--ind-precio-max) }
+.ov-component .ov-ind-graf-precio-min .barra-ind { background: var(--ind-precio-min) }
+
+.ov-component .ov-ind-imp-precio,
+.ov-component .ov-ind-por-precio { 
+    color: var(--ind-precio);
+}
+
+.ov-component .ov-ind-imp-venta,
+.ov-component .ov-ind-por-venta { 
+    color: var(--ind-venta);
+}
+
+.ov-component .ov-ind-imp-compra,
+.ov-component .ov-ind-por-compra { 
+    color: var(--ind-compra);
+}
+
+.ov-component .ov-ind-imp-precio-min,
+.ov-component .ov-ind-por-precio-min { 
+    color: var(--ind-precio-min);
+}
+
+.ov-component .ov-ind-imp-precio-max,
+.ov-component .ov-ind-por-precio-max { 
+    color: var(--ind-precio-max);
+}
+
+.ov-component .ov-ind-imp-venta, 
+.ov-component .ov-ind-por-venta { 
+    background:#fff;
+    z-index: 9;
+}
+
+.ov-component .ov-ind-imp-precio, 
+.ov-component .ov-ind-por-precio { 
+    background:#fff;
+    z-index: 10;
+}
+
+/* -------------------------------------------------------------------------- */
+/*CONFIG*/
+
+.ov-config {
+    margin-top:10px;
+    border:var(--bor-color) solid 1px;
+    display:table;
+}
+
+.ov-config label {
+    display:block;
+    float:left;
+    width:212px;
+    text-align: center;
+    /*outline:blue solid 1px;*/
+    /*min-height: 58px;*/
+}
+
+/* -------------------------------------------------------------------------- */
+
+/*log*/
+
+.ov-log  {
+    max-height:400px;
+    overflow-y:auto;
+    width:640px;
+    margin-top: 5px;
+    border: var(--bor-color) solid 1px;
+}
+
+.ov-log .ov-log-item {
+    /*outline:blue solid 1px;*/
+    display:table;
+}
+
+.ov-log .ov-log-item ul {
+    float:left;
+    padding:5px;
+    margin:0;    
+    overflow:hidden;
+}
+
+.ov-log .ov-log-item ul:nth-of-type(1) {
+    width:210px;
+}
+
+.ov-log .ov-log-item ul:nth-of-type(2) {
+    width:205px;
+}
+
+.ov-log .ov-log-item ul:nth-of-type(3) {
+    width:205px;
+}
+
+.ov-log .ov-log-item ul li {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.ov-log .ov-log-item ul li .label {
+    font-weight:bolder;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECCION SUPERIOR */ 
+
+.ov-component .ov-cont-tools {
+    width:calc( var(--ancho-component) - 20px );
+    clear:both;
+    padding:5px;
+    border:#000 solid 1px;
+    border-color:var(--bor-color);
+    margin:5px auto;
+}
+
+.ov-component .ov-cont-tools #txt_time {
+    width:120px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+ /*modo compra venta*/
+.ov-component .ov-cont-sup .ov-modo {
+    clear: both;
+    width:100%;
+    height:30px;
+    line-height:30px;
+    text-align: center;
+    font-weight: bolder;
+    color:#fff;
+    cursor:pointer;
+    margin-top:490px;
+}
+
+.ov-component .ov-cont-sup .ov-modo.modo-compra {
+    background-color: var(--ind-precio-min);
+}
+
+.ov-component .ov-cont-sup  .ov-modo.modo-venta {
+    background-color: var(--ind-precio-max);
+}
