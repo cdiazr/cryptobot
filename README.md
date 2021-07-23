@@ -11,7 +11,8 @@
 El bot está compuesto por un Servidor WebSocket y por una interface en html/javascript. 
 El servidor WebSocket actua de proxy entre el Bot y el exchange (Binance) y guarda las comunicaciones
 con Binance dando la posiblidad de hacer un backtext sobre el tráfico recibido en el caso de que se desee
-cambiar de estretegia para probar sobre la misma temporalidad.
+cambiar de estretegia para probar sobre la misma temporalidad. Toda la lógica del bot está escrita en javascript.
+En lo que respecta a php, solo el servidor WebSocket está hecho en php.
 
 ## Instalación
 
@@ -37,5 +38,7 @@ cambiar de estretegia para probar sobre la misma temporalidad.
 ### Para ejecutar la interface gráfica
 
 - Abrir en el navegador el archivo /front-end/index.html. 
-**Importante: No funciona si se abre desde un servidor web**
+
+**Importante: No funciona si se abre desde un servidor web, como Apache por ej. 
+Dará un fallo de "ruta de origen equivocada" de los archivos javascript**
 
