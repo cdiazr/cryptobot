@@ -1,7 +1,7 @@
 {
-    "wsNetworkTrafficPath"      : "g:/ws-traffic.log",
-    "httpNetworkTrafficPath"    : "g:/http-traffic.log",
-    "serverDebugFolder"         : "d:/tmpout",
+    "wsNetworkTrafficPath"      : "g:/cryptobot-logs/ws-traffic.log",
+    "httpNetworkTrafficPath"    : "g:/cryptobot-logs/http-traffic.log",
+    "serverDebugFolder"         : "g:/cryptobot-logs",
     "serverPort"                : "8000"
 }
 

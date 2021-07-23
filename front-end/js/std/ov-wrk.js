@@ -1510,6 +1510,8 @@ class OvWrk {
             if ( this._ops.backTest == true ) 
                 this._ws.sendBasic(false, false, 'ws-backtest');        
             
+            console.log('-- INICIO EXITOSO --');
+            
         } else {
             
             data = {

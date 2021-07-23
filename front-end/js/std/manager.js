@@ -77,12 +77,12 @@ class Manager  {
         
         var port = initPort > 0 ? initPort : Manager.getPorts() - 1;
         
-        console.log('NUEVA CONEX PORT: ' + port);
+        console.log('CONECTANDO AL PORT: ' + port);
         
         var ws = new WebSocket(Manager.starter);
 
         ws.onerror = function (error) {
-            console.warn('WS STARTER ERROR: ');
+            console.warn('ERROR AL INICIAR CONEXION CON EL SERVIDOR: ');
             console.dir(error);
         };  
 
@@ -130,7 +130,7 @@ class Manager  {
         var ws = new WebSocket('ws://127.0.0.1:'+port+'/binancehttp');
 
         ws.onerror = function (error) {
-            console.warn('INICIAR ERROR: ');
+            console.warn('ERROR AL INICIAR STREAM EN '+port+': ');
             console.dir(error);
         };  
 

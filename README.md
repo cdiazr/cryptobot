@@ -37,7 +37,10 @@ En lo que respecta a php, solo el servidor WebSocket está hecho en php.
 
 ### Para ejecutar la interface gráfica
 
-- Abrir en el navegador el archivo /front-end/index.html. 
+- Abrir en el navegador el archivo /front-end/index.html.
+- Abrir la consola.
+- Hacer click en el botón "Iniciar".
+- Cuando aparezca "-- INICIO EXITOSO --" en la consola, el bot ha comenzado a operar sin inconvenientes.
 
 **Importante: No funciona si se abre desde un servidor web, como Apache por ej. 
 Dará un fallo de "ruta de origen equivocada" de los archivos javascript**
