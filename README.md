@@ -6,7 +6,11 @@
 
 ## Instrucciones de Instalacion
 
-- crear el directorio /cryptobot-logs en un área del disco con un especio considerable, por ej 1 GB
+### Para ejecutar el Servidor WebSocket
+   
+- Ejecutar: 'php -f /server/0-server.php'
+
+- Crear el directorio /cryptobot-logs en un área del disco con un especio considerable, por ej 1 GB
 - Configurar el archivo /server/config.json con las rutas de los archivos donde se guardarán los logs
     - wsNetworkTrafficPath : guarda el stream de las comunicaciones WebSocket con Binance
     - httpNetworkTrafficPath : guarda el stream de las comunicaciones Http con Binance
