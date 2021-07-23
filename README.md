@@ -1,7 +1,7 @@
 # Cryptobot (BETA)
 
 ## Requisitos
-- Navegador Firefox Developer >= 91
+- Probado en Firefox Developer 91, Chrome 92, Brave 1.27
 - Php >= 5.6
 - Tener una cuenta en Binance con una clave API activa. No hace falta que "Spot Trading" esté activo.
 - No se requiere servidor web 
@@ -37,6 +37,9 @@ En lo que respecta a php, solo el servidor WebSocket está hecho en php.
 
 ### Para ejecutar la interface gráfica
 
+- Agregar el parámetro '--allow-file-access-from-files' a la linea de ejecución del navegador.
+Por ejemplo si se ejecuta con google chrome, agregar al acceso directo: 
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files
 - Abrir en el navegador el archivo /front-end/index.html.
 - Abrir la consola.
 - Hacer click en el botón "Iniciar".
