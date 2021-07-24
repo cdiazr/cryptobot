@@ -1,5 +1,8 @@
 # Cryptobot (BETA)
 
+###### Grupo de Colaboradores
+https://t.me/joinchat/lm_RyByWtN1lMmQx
+
 ## Requisitos
 - Probado en Firefox Developer 91, Chrome 92, Brave 1.27
 - Php >= 5.6
