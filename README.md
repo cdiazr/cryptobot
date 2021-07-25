@@ -28,9 +28,8 @@ En lo que respecta a php, solo el servidor WebSocket está hecho en php.
     - wsNetworkTrafficPath : guarda el stream de las comunicaciones WebSocket con Binance
     - httpNetworkTrafficPath : guarda el stream de las comunicaciones Http con Binance
     - serverDebugFolder : directorio donde se crea el stream de depuradción de los hilos del servidor WebSocket del bot
-    - serverPort : Si se cambiar el puerto, también deben ser cambiadas las siguientes variables en el ardchivo /js/std/manager.js
-        - starter = 'ws://127.0.0.1:8000/starter', reemplazar 8000 por el numero de puerto de serverPort
-        - _porCount = 8000, lo mismo que el paso anterior
+    - serverPort : Si se cambia el puerto, también deben ser cambiadas las siguientes variables en el archivo /js/std/manager.js
+        - _serverPort:
 
 ## Ejecución
 
