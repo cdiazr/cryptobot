@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
         <link href="css/Ov.css" rel="stylesheet" type="text/css"/>
         
         <script src="js/std/main-defs.js" type="text/javascript"></script>
@@ -16,108 +17,7 @@
         <script src="js/std/Ov.js" type="text/javascript"></script>
         <script src="js/std/query-filter.js" type="text/javascript"></script>
         <script src="js/std/Ex.js" type="text/javascript"></script>
-        <!--<script src="adx.js" type="text/javascript"></script>-->
-        <script>
-            
-            var contenido = false;
-            var menu = false;
-            var divPing = {};
-            var divTime = {};
-            var divExInfo = {};
-            var portCount = 8001;
-            
-            $(document).ready(function () {
-                
-                contenido = $('#contenido');
-                menu = $('.menu');
-                
-                menu.css({
-                    'height' : $(document).height()
-                });
-                
-                Manager.init();
-                
-                $('.subscriber').click(function () {
-                   
-                   var divId = Manager.getDivId($(this));
-                   var divTitulo = Manager.getTituloDiv($(this));
-                   var creatorName = Manager.getCreatorName($(this));
-                   
-                   if ( $(this).is(':checked') ) {
-                       Manager.pre_iniciar(Manager.getStream($(this)), 
-                       function (payload, area) {
-                          Creator.init_div(divId);
-                          Creator[divId] = Creator.create_div( Creator[divId], divTitulo );
-                          Creator[creatorName].call(this, Creator[divId], payload );
-                       }, true);
-                   }
-        
-                });
-                
-                $('.infoapi').click(function () {
-                   
-                   var divId = Manager.getDivId($(this));
-                   var divTitulo = Manager.getTituloDiv($(this));
-                   var creatorName = Manager.getCreatorName($(this));
-                   var filterName = Manager.getFilterName($(this));
-                   var query = QueryFilter[filterName] ? 
-                        QueryFilter[filterName].call() : null;
-                   var signed = $(this).data('signed');
-                   
-                   if ( $(this).is(':checked') ) {
-                       Manager.pre_iniciar( Manager.getAreaUrl($(this) ), 
-                       function (payload, area) {
-                          Creator.init_div(divId);
-                          Creator[divId] = Creator.create_div( Creator[divId], divTitulo );
-                          Creator[creatorName].call(this, Creator[divId], payload );
-                       }, 2, query, signed);
-                   }
-        
-                });
-               
-               
-//               $('#btnIniciar').click(function () {
-//                   pre_iniciar(porCoun++, 'dogeusdt@bookTicker');
-//               });
-//               
-//               $('#btnPing').click(function () {
-//                   ws.sendBasic('/api/v3/ping');    
-//               });
-//               
-//               $('#btnTime').click(function () {
-//                   ws.sendBasic('/api/v3/time');
-//               });
-//               
-//               $('#btnExInfo').click(function () {
-//                   ws.sendBasic('/api/v3/exchangeInfo');
-//               });
-
-               window.onresize = function () {
-                    menu.css({
-                        'height' : $(document).height()
-                    });                   
-               };
-               
-              
-                var ovc = new Ov($('#ov1'), {
-                    onCompra : function () { 
-                        var dfd = new $.Deferred();
-                        dfd.resolve();
-                        return dfd.promise();
-                    },
-                    onVenta : function () { 
-                        var dfd = new $.Deferred();
-                        dfd.resolve();
-                        return dfd.promise();
-                    }
-                });                        
-                
-            }); // doc ready
-
-
-            
-            
-        </script>
+        <script src="js/main.js" type="text/javascript"></script>
         
     </head>
     <body>
@@ -129,6 +29,9 @@
                         Symbol <br/>
                         <input type="text" id="txtSymbol" value="dogeusdt" />
                     </label>    
+                </li>
+                <li>
+                    Suscripción
                 </li>
                 
                 <li>
@@ -164,6 +67,10 @@
                 </li>
                 
                 <li>
+                    Info API
+                </li>                
+                
+                <li>
                     <label>
                         <input class="infoapi" data-creator="exchangeInfo" 
                             data-areaurl="/api/v3/exchangeInfo" type="checkbox" id="chkExInfo" />
@@ -192,83 +99,10 @@
 
             
             <div id="contenido">
-                
-<!--            <button id="btnIniciar" type="button" > Iniciar </button>
-            <button id="btnPing" type="button" > Ping </button>
-            <button id="btnTime" type="button" > System Time </button>
-            <button id="btnExInfo" type="button" > Exchange Info </button>
-            <button id="btnMiniTicker" type="button" > MiniTicker 24h </button>
-            <button id="btnPartialBook" type="button" >PartialBook</button>
-            <button id="btnBookTicker" type="button" >Book Ticker</button>-->
-            
-            <div id="ov1"></div>
-            
-
-            
+                <div id="ov1"></div>
             </div>
             
         </div>
-        
-        <style>
-            
-            * {
-                margin:0;
-                box-sizing: border-box;
-            }
-            
-            .menu {
-                float:left;
-                outline:#000 solid 1px;
-                padding:10px;
-            }
-            
-            .menu li {
-                list-style: none;
-                margin:0;
-            }
-            
-            #contenido {
-                float:left;
-                /*outline:blue solid 1px;*/
-                padding:10px;
-                display:table;
-            }
-            
-            table {
-                border-collapse: collapse;
-            }
-            table td {
-                border:#000 solid 1px;
-                padding:3px;
-            }
-            
-            .bid {
-                color:green;
-                font-weight: bolder;
-            }
-            
-            .ask {
-                color:red;
-                font-weight: bolder;
-            }
-            
-            .win {
-                border:#000 solid 1px;
-                float:left;
-                margin:5px;
-            }
-            
-            .win .titulo {
-                height:20px;
-                border:#ccc solid 1px;
-                text-align: center;
-            }
-            
-            .win .body {
-                padding:5px;
-            }
-            
-        </style>
         
     </body>
 </html>

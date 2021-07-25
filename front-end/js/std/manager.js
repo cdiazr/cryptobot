@@ -12,10 +12,13 @@
 
 class Manager  {
     
-    static starter = 'ws://127.0.0.1:8000/starter';
+    static _serverPort = 8000;
+    static _serverUrl = 'ws://127.0.0.1';
+    static _serverQuery = 'starter';
+    static starter = false;
     static symbol = false;
     static contenido = false;
-    static _porCount = 8000;
+    static _portCount = 0;
     static mainWs = false;
     
 // -----------------------------------------------------------------------------
@@ -24,6 +27,8 @@ class Manager  {
         
        Manager.symbol = $('#txtSymbol').val();
        Manager.contenido = $('#contenido');
+       Manager._portCount = Manager._serverPort;
+       Manager.starter = Manager._serverUrl+':'+Manager._serverPort+'/'+Manager._serverQuery;
         
     }
 
@@ -46,7 +51,7 @@ class Manager  {
     static getTituloDiv (ctrl) {
         var titulo = ctrl.data('creator') ? ctrl.data('creator') :
                 ctrl.data('stream');
-        return String.prototype.toUpperCase ( titulo );
+        return String.prototype.toUpperCase.call ( titulo );
     }
 
 // -----------------------------------------------------------------------------
@@ -75,53 +80,71 @@ class Manager  {
     
     static pre_iniciar (url, message, subscribe, query, signed, initPort) {
         
-        var port = initPort > 0 ? initPort : Manager.getPorts() - 1;
+        var dfd = new $.Deferred();
         
-        console.log('CONECTANDO AL PORT: ' + port);
-        
-        var ws = new WebSocket(Manager.starter);
+        Manager.getFreePort().then(
+            (port) => {
+                
+                Manager._portCount = port;
+                
+                console.log('CONECTANDO AL PORT: ' + port);
 
-        ws.onerror = function (error) {
-            console.warn('ERROR AL INICIAR CONEXION CON EL SERVIDOR: ');
-            console.dir(error);
-        };  
+                var ws = new WebSocket(Manager.starter);
+                
+                ws.onerror = function (error) {
+                    console.warn('ERROR AL INICIAR CONEXION CON EL SERVIDOR: ');
+                    console.dir(error);
+                    dfd.reject();
+                };  
 
-        ws.onopen = function (error) {
-            ws.send( JSON.stringify({
-                'action': 'http-request',
-                'data': {
-                    'port' : port
-                }
-            }));                     
-        };  
+                ws.onopen = function (error) {
+                    ws.send( JSON.stringify({
+                        'action': 'http-request',
+                        'data': {
+                            'port' : port
+                        }
+                    }));    
+                    
+                    dfd.resolve(ws);
+                    
+                };  
 
-        ws.onmessage = function (msg) {
+                ws.onmessage = function (msg) {
 
-            var payload = JSON.parse(msg.data); 
-            var port = payload.data.port_1;
-            
-            if ( subscribe === false ) {
-                message(payload, ws, port);
-            } else if ( subscribe === true ) {
-                var ws = Manager.iniciar(port, function () {
-                    ws.subscribe(false,url);
-                }, message);                                    
-            } else { // info controls
-                var ws = Manager.iniciar(port, function () {
-                    ws.sendBasic(url, query, undefined, signed);
-                }, message);                
+                    var payload = JSON.parse(msg.data); 
+                    var port = payload.data.port_1;
+
+//                    console.log('pre iniciar');
+//                    console.dir(payload);
+
+                    if ( subscribe === false ) {
+                        message(payload, ws, port);
+                    } else if ( subscribe === true ) {
+                        var ws = Manager.iniciar(port, function () {
+                            ws.subscribe(false,url);
+                        }, message);                                    
+                    } else { // info controls
+                        var ws = Manager.iniciar(port, function () {
+                            ws.sendBasic(url, query, undefined, signed);
+                        }, message);                
+                    }
+
+                };    
+
+                window.onbeforeunload = function () {
+                    ws.close();
+                    return true;
+                };                  
+                
+            },
+            () => {
+                console.error('FALLO AL OBTENER PUERTO LIBRE');
             }
-            
-        };    
-
-        window.onbeforeunload = function () {
-            ws.close();
-            return true;
-        };                  
-
-        return ws;
-
-    } // iniciar    
+        );
+        
+        return dfd.promise();
+        
+    } // pre_iniciar    
     
 // -----------------------------------------------------------------------------
 
@@ -144,6 +167,11 @@ class Manager  {
             //console.info('respuesta: ');
             //console.dir(payload);
             //contenido.html(payload.data.body);
+            
+            if ( Manager.verify_error(payload) ) {
+                ws.close();
+                return;
+            }
             
             var area = payload.stream ? payload.stream : 
                     payload.data.areaUrl;
@@ -203,17 +231,47 @@ class Manager  {
     } // iniciar    
 
 // -----------------------------------------------------------------------------
-
-    static getPorts () {
+    
+    static getFreePort () {
         
-        Manager._porCount += 2;
-        return Manager._porCount;
-        
-    }; // get ports
+        var dfd = new $.Deferred();
+        var ws = new WebSocket(Manager.starter);
 
+        ws.onerror = function (error) {
+            dfd.reject();
+            console.warn('ERROR AL INICIAR CONEXION CON EL SERVIDOR: ');
+            console.dir(error);
+        };  
+
+        ws.onopen = function (error) {
+            ws.send( JSON.stringify({
+                'action': 'free-port',
+                'data': false
+            }));                     
+        };  
+
+        ws.onmessage = function (msg) {
+            var payload = JSON.parse(msg.data); 
+            dfd.resolve(payload.data.port);
+        };         
+        
+        return dfd.promise();
+        
+    }; // getFreePorts
+    
 // -----------------------------------------------------------------------------
 
- 
+    static verify_error (payload) {
+        
+        if ( payload.data.code == undefined ) return false;
+        
+        console.error( "BINANCE API ERROR: " + payload.data.body.msg );
+        return payload.data.code;
+        
+    }
+    
 
+// -----------------------------------------------------------------------------
+    
 } // Manager
 

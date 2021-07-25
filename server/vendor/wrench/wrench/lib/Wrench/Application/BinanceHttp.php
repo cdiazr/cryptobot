@@ -32,6 +32,8 @@ class BinanceHttp extends Application
     protected $_wsNetworkTrafficPath = false;
     protected $_httpNetworkTrafficPath = false;
     
+    protected $_saveStream = true;
+    
 
 // -----------------------------------------------------------------------------    
     
@@ -54,10 +56,10 @@ class BinanceHttp extends Application
     public function close_resources () {
     
         if ( is_resource($this->_resWsFile) )
-            @$this->_resWsFile->close();
+            @fclose($this->_resWsFile);
     
         if ( is_resource($this->_resHttpFile) )
-            @$this->_resHttpFile->close();
+            @fclose($this->_resHttpFile);
         
     } // close_resources
     
@@ -85,6 +87,7 @@ class BinanceHttp extends Application
         unset($this->_clients[$id]);
         $this->_wsUnsubscribe($id);
         echo "\n CLIENTE DESCONECTADO \n";
+        die();
     }
     
 // -----------------------------------------------------------------------------    
@@ -383,13 +386,25 @@ class BinanceHttp extends Application
     private function _sendToBrowser($data) {
         $encodedData = $this->_encodeData('response', $data);
         
-        if ( !is_resource($this->_resHttpFile) ) {
-            if ( file_exists($this->_httpNetworkTrafficPath) ) 
-                unlink($this->_httpNetworkTrafficPath);
-            $this->_resHttpFile = fopen($this->_httpNetworkTrafficPath, 'w');
+        try {
+            
+            if ( $this->_saveStream ) {
+
+                if ( !is_resource($this->_resHttpFile) ) {
+                    if ( file_exists($this->_httpNetworkTrafficPath) ) 
+                        unlink($this->_httpNetworkTrafficPath);
+                    $this->_resHttpFile = fopen($this->_httpNetworkTrafficPath, 'w');
+                }
+
+                fwrite($this->_resHttpFile, serialize($encodedData).'|');
+            
+            }
+            
+        } catch ( Error $err ) {
+            $this->_saveStream = false;
+        } catch ( Exception $ex ) {
+            $this->_saveStream = false;
         }
-        
-        fwrite($this->_resHttpFile, serialize($encodedData).'|');
         
         foreach ($this->_clients as $sendto) {
             $sendto->send($encodedData);
@@ -417,13 +432,26 @@ class BinanceHttp extends Application
         if ( !is_array($decodedData) ) return;
         if ( !count($this->_subscribers) ) return;
         
-        if ( !is_resource( $this->_resWsFile ) ) {
-            if ( file_exists($this->_wsNetworkTrafficPath) ) 
-                unlink($this->_wsNetworkTrafficPath);
-            $this->_resWsFile = fopen($this->_wsNetworkTrafficPath, 'w');
+        try {
+            
+            if ( $this->_saveStream ) {
+            
+                if ( !is_resource( $this->_resWsFile ) ) {
+                    if ( file_exists($this->_wsNetworkTrafficPath) ) 
+                        unlink($this->_wsNetworkTrafficPath);
+                    $this->_resWsFile = fopen($this->_wsNetworkTrafficPath, 'w');
+                }
+
+                fwrite($this->_resWsFile, serialize($decodedData).'|');            
+            
+            }
+            
+        } catch ( Error $err ) {
+            $this->_saveStream = false;            
+        } catch (Exception $ex) {
+            $this->_saveStream = false;
         }
-        
-        fwrite($this->_resWsFile, serialize($decodedData).'|');
+
         
         $client;
         $clientId;

@@ -284,13 +284,15 @@ class Ov {
         var ob = this;
         var initPort = this._ops.port > 0 ? this._ops.port : undefined;
         
-        this._mainWs = Manager.pre_iniciar(false, function (payload, mainWs, port) {
+        Manager.pre_iniciar(false, function (payload, mainWs, port) {
             
             ob._ops.port = port;
             ob._ops.port2 = port + 1;
             ob._start_worker();
             
-        }, false, false, false, initPort);                  
+        }, false, false, false, initPort).done((ws) => {
+            this._mainWs = ws;
+        });                  
         
     }; // start
     

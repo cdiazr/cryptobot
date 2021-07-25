@@ -1,0 +1,68 @@
+/**
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 
+ * crypto
+ * @authors 
+ *      Roberto Schaerer <roberto@sysmovil.com>
+ * @descripción: 
+ * @version 1.0 - 25 jul. 2021 - 11:27:56
+ * 
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+
+* {
+    margin:0;
+    box-sizing: border-box;
+}
+
+.menu {
+    float:left;
+    outline:#000 solid 1px;
+    padding:10px;
+}
+
+.menu li {
+    list-style: none;
+    margin:0;
+}
+
+#contenido {
+    float:left;
+    /*outline:blue solid 1px;*/
+    padding:10px;
+    display:table;
+}
+
+table {
+    border-collapse: collapse;
+}
+table td {
+    border:#000 solid 1px;
+    padding:3px;
+}
+
+.bid {
+    color:green;
+    font-weight: bolder;
+}
+
+.ask {
+    color:red;
+    font-weight: bolder;
+}
+
+.win {
+    border:#000 solid 1px;
+    float:left;
+    margin:5px;
+}
+
+.win .titulo {
+    height:20px;
+    border:#ccc solid 1px;
+    text-align: center;
+}
+
+.win .body {
+    padding:5px;
+}

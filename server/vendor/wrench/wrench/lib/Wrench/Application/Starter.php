@@ -9,9 +9,16 @@ class Starter extends Application
     protected $_clients = array();
     protected $_serverPath = __DIR__.'/../../../../../../init-server.php';
     protected $_clientsRes = array();
+    protected $_portCount = 0;
+    protected $_portStep = 2;
     
 
 // -----------------------------------------------------------------------------    
+    
+    public function __construct () {
+        $this->_portCount = \Config::get('serverPort');
+    } // __construct
+    
     
     /**
      * @param Connection $client
@@ -48,6 +55,16 @@ class Starter extends Application
         
         if ($decodedData === false) {
             // @todo: invalid request trigger error...
+        } else if ( $decodedData['action'] == 'free-port' ) {
+            
+            $this->_portCount += $this->_portStep;
+            
+            $sendData = array(
+                'port' => $this->_portCount - 1
+            );
+            
+            $this->_sendToBrowser( $sendData, $clientId );              
+            
         } else if ( $decodedData['action'] == 'http-request' ) {
             
             $descriptorSpec = array (
@@ -61,12 +78,12 @@ class Starter extends Application
             for ( $i = 1; $i <= 2; $i++ ) {
                 
                 $port++;
-                $pipes[$i] = array();
+                $pipes = array();
                 $file = 'php -f '.$this->_serverPath.' '.$port." > $debugFolder/_$port.txt";
                 
                 $this->_clientsRes[$clientId][$port] = array();
-                $this->_clientsRes[$clientId][$port]['proc'] = proc_open($file, $descriptorSpec, $pipes[$i]);
-                $this->_clientsRes[$clientId][$port]['pipe'] = &$pipes[$i];                
+                $this->_clientsRes[$clientId][$port]['proc'] = proc_open($file, $descriptorSpec, $pipes);
+                $this->_clientsRes[$clientId][$port]['pipe'] = &$pipes;                
                 
                 $status = proc_get_status( $this->_clientsRes[$clientId][$port]['proc'] );
                 
@@ -95,16 +112,18 @@ class Starter extends Application
                     $this->_log(false, "NO HAY PROCESO CON PUERTO $port ABIERTO");
                 }
                 
-                $this->_log(false, "CERRANDO TUBERIAS $infoProc");
-                for ( $i = 0; $i <= 2; $i++ ) {
-                    fclose($this->_clientsRes[$clientId][$port]['pipe'][$i]);
-                }
+//                $this->_log(false, "CERRANDO TUBERIAS $infoProc");
+//    
+//                for ( $i = 0; $i <= 2; $i++ ) {
+//                    @fclose($this->_clientsRes[$clientId][$port]['pipe'][$i]);
+//                    $this->_log(false, "CERRANDO PIPE $i");
+//                }
                 
                 $this->_log(false, "CERRANDO $infoProc");
-                $resClose = @proc_terminate( $this->_clientsRes[$clientId][$port]['proc'] );
-                
+                $resClose = proc_terminate( $this->_clientsRes[$clientId][$port]['proc'] );
+
                 if ( $resClose == 1 ) $this->_log(false, "CIERRE OK $infoProc");
-                else $this->_log(false, "FALLO CIERRE $infoProc");
+                else $this->_log(false, "FALLO CIERRE $infoProc: $resClose");
                 
                 unset($this->_clientsRes[$clientId][$port]);                
                 

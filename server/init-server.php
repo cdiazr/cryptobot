@@ -9,7 +9,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-set_error_handler('manejo_error');
+//set_error_handler('manejo_error');
 
 require_once __DIR__ .'/Config.class.php';
 require __DIR__ . '/vendor/autoload.php';
@@ -27,9 +27,9 @@ $server->registerApplication('binancehttp', new \Wrench\Application\BinanceHttp(
 $server->run();
 
 
-function manejo_error ($errno, $errstr, $errfile = false, $errline = false, $errcontext = false ) {
-    throw new Exception($errstr, $errno);
-}
+//function manejo_error ($errno, $errstr, $errfile = false, $errline = false, $errcontext = false ) {
+//    throw new Exception($errstr, $errno);
+//}
 
 
 

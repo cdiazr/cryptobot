@@ -27,6 +27,10 @@ importScripts('../analysis/parabolic-sar.js');
 importScripts('../analysis/mom.js');
 importScripts('../analysis/ema.js');
 
+importScripts('../strategy/st-1.js');
+
+
+
 var wrk = false;
 
 // -----------------------------------------------------------------------------

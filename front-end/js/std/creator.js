@@ -238,11 +238,12 @@ class Creator {
     
 // -----------------------------------------------------------------------------
 
-    static create_div ( div, titulo ) {
+    static create_div ( div, titulo, id ) {
         if ( !div.length ) {
             Manager.contenido.append( 
                 $('<div>').attr({
-                    'class' : 'win'
+                    'class' : 'win',
+                    'id'    : id
                 }).append(
                     $('<div>').attr({
                         'class' : 'titulo'
@@ -266,6 +267,13 @@ class Creator {
         
         return Creator[divId];
         
+    }
+    
+// -----------------------------------------------------------------------------
+
+    static remove_div( divId ) {
+        $('#'+divId).remove();
+        delete Creator[divId];
     }
     
 } // Creator
